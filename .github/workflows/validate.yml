@@ -1,0 +1,66 @@
+name: Validate registry
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check package files
+        shell: python
+        run: |
+          # Structural checks per the Loadstone spec (SPEC 2): every file
+          # parses, ids are unique within the registry, links point at
+          # github:owner/repo, pinned artifacts carry real sha256 hashes.
+          # (Full semantic validation runs via the loadstone CLI locally;
+          # this job is dependency-free so PRs always get checked.)
+          import json, pathlib, re, sys
+
+          errors = []
+          ids = {}
+          package_dir = pathlib.Path("loadstone-packages")
+          files = sorted(package_dir.glob("*.json"))
+          if not files:
+              errors.append("loadstone-packages/ is empty")
+
+          for path in files:
+              try:
+                  doc = json.loads(path.read_text(encoding="utf-8-sig"))
+              except Exception as e:
+                  errors.append(f"{path}: not valid JSON: {e}")
+                  continue
+              kind = doc.get("kind", "mod")
+              if kind == "link":
+                  source = doc.get("source", "")
+                  if not re.fullmatch(r"github:[^/\s]+/[^/\s]+", source):
+                      errors.append(f"{path}: link source must be github:owner/repo, got {source!r}")
+                  for pkg in doc.get("packages", []):
+                      if pkg in ids:
+                          errors.append(f"{path}: id {pkg!r} already provided by {ids[pkg]}")
+                      ids[pkg] = str(path)
+              else:
+                  pkg_id = doc.get("id", "")
+                  if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", pkg_id):
+                      errors.append(f"{path}: bad or missing id {pkg_id!r}")
+                  elif pkg_id in ids:
+                      errors.append(f"{path}: id {pkg_id!r} already provided by {ids[pkg_id]}")
+                  else:
+                      ids[pkg_id] = str(path)
+                  if doc.get("manifestVersion") != 1:
+                      errors.append(f"{path}: manifestVersion must be 1")
+                  pinned = doc.get("pinnedRelease")
+                  if pinned:
+                      for artifact in pinned.get("artifacts", []):
+                          sha = artifact.get("sha256", "")
+                          if not re.fullmatch(r"[0-9a-f]{64}", sha) or sha == "0" * 64:
+                              errors.append(f"{path}: artifact {artifact.get('file')!r} needs a real sha256")
+
+          for error in errors:
+              print(f"error: {error}")
+          if errors:
+              sys.exit(1)
+          print(f"OK: {len(files)} package file(s), {len(ids)} id(s): {', '.join(sorted(ids))}")
