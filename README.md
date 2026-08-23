@@ -35,7 +35,7 @@ executable, or embedded in a branded installer build):
    your mod's manifest and (usually) the game package it targets — see the
    [format specification](https://github.com/bradjrenshaw/loadstone) and its
    worked examples.
-2. Attach a generated `release.json` to each GitHub release
+2. Attach a generated `loadstone-release.json` to each GitHub release
    (`loadstone package` does this from your build script).
 3. Open a pull request here adding one link file:
 
