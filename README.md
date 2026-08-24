@@ -56,3 +56,4 @@ downloading from their releases page today.
 - `blindfold` — screen-reader accessibility for Balatro
 - `lovely-injector` — runtime Lua injector (tool; registry-pinned to
   upstream releases with audited hashes)
+- `say-the-spire-2` — screen-reader accessibility for Slay the Spire 2
