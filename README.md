@@ -57,3 +57,5 @@ downloading from their releases page today.
 - `lovely-injector` — runtime Lua injector (tool; registry-pinned to
   upstream releases with audited hashes)
 - `say-the-spire-2` — screen-reader accessibility for Slay the Spire 2
+- `wrath-access` — screen-reader accessibility for Pathfinder: Wrath of
+  the Righteous
