@@ -53,9 +53,18 @@ downloading from their releases page today.
 
 ## What's listed
 
+- `ats-accessibility` — screen-reader accessibility for Against the Storm
 - `blindfold` — screen-reader accessibility for Balatro
+- `brante-access` — screen-reader accessibility for The Life and Suffering
+  of Sir Brante
+- `civ-v-access` — screen-reader accessibility for Sid Meier's
+  Civilization V
+- `hand-of-fate-access` — screen-reader accessibility for Hand of Fate
 - `lovely-injector` — runtime Lua injector (tool; registry-pinned to
   upstream releases with audited hashes)
+- `non-visual-calculus` — screen-reader accessibility for Disco Elysium
 - `say-the-spire-2` — screen-reader accessibility for Slay the Spire 2
+- `vision-not-included` — screen-reader accessibility for Oxygen Not
+  Included
 - `wrath-access` — screen-reader accessibility for Pathfinder: Wrath of
   the Righteous
