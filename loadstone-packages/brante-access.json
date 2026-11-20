@@ -1,0 +1,5 @@
+{
+  "kind": "link",
+  "source": "github:rashadnaqeeb/brante-access",
+  "packages": ["brante-access"]
+}

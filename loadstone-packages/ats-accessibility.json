@@ -1,0 +1,5 @@
+{
+  "kind": "link",
+  "source": "github:rashadnaqeeb/ats-accessibility-mod",
+  "packages": ["ats-accessibility"]
+}

@@ -1,0 +1,5 @@
+{
+  "kind": "link",
+  "source": "github:rashadnaqeeb/hand-of-fate-access",
+  "packages": ["hand-of-fate-access"]
+}
